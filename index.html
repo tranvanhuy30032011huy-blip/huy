@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng 20/10 - Trần Văn Huy</title>
+    <!-- Thư viện Canvas-Confetti cho hiệu ứng pháo hoa -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ff758c, #ff7eb3, #7f7fd5, #86a8e7);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .card-container {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 25px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 
+                        0 0 25px rgba(255, 105, 180, 0.4);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            animation: popIn 0.8s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.9) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Biểu tượng trái tim nhịp đập 2D */
+        .heart-icon {
+            font-size: 3.5rem;
+            display: inline-block;
+            margin-bottom: 10px;
+            animation: beat 1.2s ease infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        h1 {
+            color: #d81b60;
+            font-size: 1.9rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #d81b60, #ff4081);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hint-text {
+            color: #555;
+            font-size: 0.98rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Khung chứa lời chúc phẳng (2D) */
+        .wishes-card {
+            display: none;
+            margin: 20px 0;
+            padding: 20px 15px;
+            background: #fff0f5;
+            border: 2px dashed #ff4081;
+            border-radius: 15px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+            min-height: 90px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .wishes-card p {
+            color: #c2185b;
+            font-size: 1.05rem;
+            font-style: italic;
+            font-weight: 600;
+            line-height: 1.6;
+            display: inline;
+        }
+
+        /* Nút bấm phẳng hiện đại */
+        .btn {
+            background: linear-gradient(45deg, #ff2a75, #ff6097);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 42, 117, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 42, 117, 0.5);
+        }
+
+        /* Con trỏ gõ chữ */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #c2185b;
+            margin-left: 3px;
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Tác giả */
+        .author-tag {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(216, 27, 96, 0.3);
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .author-name {
+            color: #d81b60;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: linear-gradient(45deg, #ff007f, #7f00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Hiệu ứng mưa rơi phẳng ở nền */
+        .rain-item {
+            position: absolute;
+            top: -10%;
+            user-select: none;
+            pointer-events: none;
+            animation: rainFall linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            z-index: 1;
+        }
+
+        @keyframes rainFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-container">
+        <div class="container">
+            <div class="heart-icon">💌</div>
+            <h1>Happy Women's Day 20/10 🌸</h1>
+            <p class="hint-text" id="hintText">Chúc bạn một ngày 20/10 ngập tràn niềm vui và hạnh phúc! Nhấn nút bên dưới để nhận món quà tinh thần đặc biệt dành riêng cho bạn nhé ✨</p>
+            
+            <!-- Khung lời chúc phẳng -->
+            <div class="wishes-card" id="wishesCard">
+                <p id="wishText"></p><span class="cursor" id="cursor" style="display: none;">&nbsp;</span>
+            </div>
+
+            <button class="btn" id="actionBtn" onclick="openWish()">Mở Lời Chúc Dành Cho Bạn ✨</button>
+
+            <div class="author-tag">
+                Created with ❤️ by <span class="author-name">Trần Văn Huy</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Danh sách lời chúc dành riêng cho "BẠN"
+        const wishes = [
+            "Chúc bạn ngày 20/10 luôn tỏa sáng rạng rỡ, xinh đẹp và luôn giữ nụ cười tươi tắn trên môi!",
+            "Chúc bạn một ngày 20/10 tràn ngập niềm vui, nhận được thật nhiều hoa, quà và những điều ngọt ngào nhất!",
+            "Mong rằng mỗi ngày trôi qua của bạn đều đầy ắp tiếng cười, bình yên và gặt hái được thật nhiều thành công!",
+            "Cảm ơn bạn vì đã luôn tuyệt vời và mang lại năng lượng tích cực cho mọi người xung quanh. Happy 20/10!",
+            "Chúc bạn luôn giữ vững sự trẻ trung, tự tin, yêu đời và đạt được mọi ước mơ của chính mình!",
+            "Chúc bạn ngày 20/10 tay cầm nhiều hoa, giỏ đầy quà, đi chơi không lo về giá và lúc nào cũng vui vẻ!",
+            "Chúc bạn mỗi ngày đều rạng rỡ như ngày 20/10, bình an trong tâm hồn và luôn hạnh phúc trọn vẹn!",
+            "Mong cuộc đời luôn dịu dàng với bạn, trao cho bạn những cơ hội tốt đẹp và luôn có ai đó chân thành yêu thương bạn!",
+            "20/10 chúc bạn học tập/công việc thăng tiến, tình yêu thăng hoa, tiền tài đầy túi và niềm vui ngập tràn!",
+            "Cầu chúc cho bạn luôn tự tin, độc lập, cuốn hút và tỏa sáng theo cách riêng nhất của chính mình!",
+            "Chúc bạn có một ngày 20/10 thật tuyệt vời, ngọt ngào và nhận được thật nhiều tình cảm ấm áp!",
+            "Mong mọi điều ước của bạn trong ngày hôm nay đều trở thành hiện thực. Chúc mừng bạn ngày 20/10!",
+            "Chúc bạn lúc nào cũng xinh đẹp, trẻ trung, bớt lo âu và luôn có thật nhiều sức khỏe để tận hưởng cuộc sống!",
+            "Gửi đến bạn vô vàn tình yêu thương cùng những lời chúc tốt đẹp nhất nhân ngày Phụ nữ Việt Nam 20/10!",
+            "Chúc bạn mỗi ngày thức dậy đều có một lý do để mỉm cười và hạnh phúc với những điều nhỏ bé xung quanh!",
+            "Mong bạn luôn gặp may mắn trên mọi chặng đường, mọi dự định sắp tới đều thành công rực rỡ!",
+            "Chúc xinh đẹp, chúc bình an, chúc may mắn và chúc bạn có một ngày 20/10 trọn vẹn niềm vui!",
+            "Chúc bạn ngọt ngào hơn kẹo, rạng rỡ hơn ánh nắng và luôn là phiên bản hoàn hảo nhất của chính mình!",
+            "Ngày 20/10 chúc bạn nhận được hàng ngàn nụ cười, hàng trăm cái ôm và trọn vẹn một tình yêu thương chân thành!",
+            "Mong bạn luôn biết yêu thương bản thân, tự tin vào chính mình và luôn vững bước trên con đường phía trước!",
+            "Happy 20/10! Chúc bạn có một ngày Phụ nữ Việt Nam đong đầy kỷ niệm đẹp, ý nghĩa và thật hạnh phúc!"
+        ];
+
+        let isOpened = false;
+        let hasTypedOnce = false;
+        let lastIndex = -1;
+
+        function getRandomWish() {
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * wishes.length);
+            } while (randomIndex === lastIndex && wishes.length > 1);
+            
+            lastIndex = randomIndex;
+            return wishes[randomIndex];
+        }
+
+        // Hiệu ứng gõ chữ
+        function typeWriter(text, elementId, speed = 40) {
+            const element = document.getElementById(elementId);
+            const cursor = document.getElementById('cursor');
+            element.innerText = '"';
+            cursor.style.display = 'inline-block';
+            let i = 0;
+
+            function type() {
+                if (i < text.length) {
+                    element.innerText += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    element.innerText += '"';
+                    cursor.style.display = 'none';
+                    hasTypedOnce = true;
+                }
+            }
+            type();
+        }
+
+        // Xử lý khi mở lời chúc
+        function openWish() {
+            const card = document.getElementById('wishesCard');
+            const btn = document.getElementById('actionBtn');
+            const wishTextElement = document.getElementById('wishText');
+            const cursor = document.getElementById('cursor');
+
+            const selectedWish = getRandomWish();
+            card.style.display = 'block';
+
+            if (!isOpened) {
+                isOpened = true;
+                btn.innerText = "Xem Lời Chúc Khác 🎁";
+                typeWriter(selectedWish, 'wishText', 35);
+                fireConfetti();
+            } else {
+                if (hasTypedOnce) {
+                    cursor.style.display = 'none';
+                    wishTextElement.innerText = `"${selectedWish}"`;
+                }
+                fireConfetti();
+            }
+        }
+
+        // Bắn pháo hoa
+        function fireConfetti() {
+            confetti({
+                particleCount: 70,
+                spread: 60,
+                origin: { y: 0.6 }
+            });
+
+            setTimeout(() => {
+                confetti({
+                    particleCount: 40,
+                    angle: 60,
+                    spread: 50,
+                    origin: { x: 0 }
+                });
+                confetti({
+                    particleCount: 40,
+                    angle: 120,
+                    spread: 50,
+                    origin: { x: 1 }
+                });
+            }, 200);
+        }
+
+        // Hiệu ứng mưa rơi
+        function createRainEffect() {
+            const items = ['🌸', '🌷', '💖', '💐', '✨', '🌹', '🌺', '⭐', '❤️'];
+            const container = document.body;
+
+            setInterval(() => {
+                const item = document.createElement('div');
+                item.classList.add('rain-item');
+                
+                item.innerText = items[Math.floor(Math.random() * items.length)];
+                item.style.left = Math.random() * 100 + 'vw';
+                
+                const duration = Math.random() * 3 + 2.5;
+                item.style.animationDuration = duration + 's';
+                item.style.fontSize = (Math.random() * 16 + 12) + 'px';
+
+                container.appendChild(item);
+
+                setTimeout(() => {
+                    item.remove();
+                }, duration * 1000);
+            }, 150);
+        }
+
+        window.onload = createRainEffect;
+    </script>
+</body>
+</html>
